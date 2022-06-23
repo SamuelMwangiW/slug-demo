@@ -13,9 +13,9 @@ trait HasSlug
 
     public static function bootHasSlug(): void
     {
-        static::creating(fn(Model $model) => $model->generateSlugOnCreate());
+        static::creating(fn (Model $model) => $model->generateSlugOnCreate());
 
-        static::updating(fn(Model $model) => $model->ensureSlugOnUpdate());
+        static::updating(fn (Model $model) => $model->ensureSlugOnUpdate());
     }
 
     abstract protected function createSlugFromColumn(): string;
@@ -62,7 +62,7 @@ trait HasSlug
     {
         return !static::query()
             ->where(column: $this->slugColumn, operator: '=', value: $slug)
-            ->when($ignoreId, fn(Builder $q) => $q->where('id', '!=', $ignoreId))
+            ->when($ignoreId, fn (Builder $q) => $q->where('id', '!=', $ignoreId))
             ->exists();
     }
 }
