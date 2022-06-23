@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -51,7 +53,7 @@ trait HasSlug
         $originalSlug = $slug;
         $i = 1;
 
-        while (!$this->slugIsUnique($slug) || $slug === '') {
+        while (! $this->slugIsUnique($slug) || $slug === '') {
             $slug = $originalSlug . '-' . $i++;
         }
 
@@ -60,7 +62,7 @@ trait HasSlug
 
     private function slugIsUnique(string $slug, $ignoreId = null): bool
     {
-        return !static::query()
+        return ! static::query()
             ->where(column: $this->slugColumn, operator: '=', value: $slug)
             ->when($ignoreId, fn (Builder $q) => $q->where('id', '!=', $ignoreId))
             ->exists();
